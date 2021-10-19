@@ -72,18 +72,18 @@ fun TextField(passwordState:String, onTextChange: (String) -> Unit) {
 
 
 @Composable
-fun WrongFiledView(value: ValueAndText) {
+fun PasswordItemView(value: ValueAndText) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 22.dp)
     ) {
         value.value.apply {
-            WrongFiled(chooseColor())
-            WrongFiled(chooseColor(item1 = false))
-            WrongFiled(chooseColor(item1 = false, item2 = false))
-            WrongFiled(chooseColor(item1 = false, item2 = false, item3 = false))
-            WrongFiled(
+            PasswordItem(chooseColor())
+            PasswordItem(chooseColor(item1 = false))
+            PasswordItem(chooseColor(item1 = false, item2 = false))
+            PasswordItem(chooseColor(item1 = false, item2 = false, item3 = false))
+            PasswordItem(
                 chooseColor(
                     item1 = false,
                     item2 = false,
@@ -101,7 +101,7 @@ fun WrongFiledView(value: ValueAndText) {
 }
 
 @Composable
-fun WrongFiled(bC: BrushAndColor) {
+fun PasswordItem(bC: BrushAndColor) {
     Canvas(
         modifier = Modifier
             .height(20.dp)
@@ -120,7 +120,7 @@ fun WrongFiled(bC: BrushAndColor) {
 }
 
 @Composable
-fun ButtonBrush(brush: Float, c: Color) {
+fun SubmitButton(brush: Float, c: Color) {
     Canvas(
         modifier = Modifier
             .height(50.dp)

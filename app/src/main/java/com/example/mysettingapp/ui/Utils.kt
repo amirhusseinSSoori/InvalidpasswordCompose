@@ -32,6 +32,15 @@ fun Int.coverButton():Float {
         }
     }
 }
+
+sealed class Pattern(val rex:Regex) {
+    object NoSpace:Pattern(Regex("(^\\S*\$)"))
+    object Symbol:Pattern(Regex("^.*(?=.*[!@#$%^&*()-+=?<>]).*$"))
+    object UpperCase:Pattern(Regex("(.*[A-Z].*)"))
+    object DownCase:Pattern(Regex("(.*[a-z].*)"))
+    object UseNumber:Pattern(Regex("(.*[0-9].*)"))
+
+}
 fun Int.chooseColor(
     item1: Boolean = true,
     item2: Boolean = true,
