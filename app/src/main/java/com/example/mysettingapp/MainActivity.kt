@@ -13,8 +13,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.mysettingapp.ui.MyTextField
@@ -25,9 +26,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val (passwordState, passwordStateOnChange) = remember { mutableStateOf("") }
-            Column {
+            Column(       verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally) {
                 MyTextField(passwordState,passwordStateOnChange)
                 CustomView(invalidPassword(passwordState))
+                ButtonBrush(setButton(invalidPassword(passwordState).value),chooseColor(invalidPassword(passwordState).value,check1 = true,check2 = true,check3 = true,check4 = true,check5 = true).color)
             }
         }
     }
@@ -36,64 +39,114 @@ class MainActivity : ComponentActivity() {
 fun CustomView(value:ValueAndText) {
     Row(modifier = Modifier
         .fillMaxWidth()
-        .height(100.dp)
         .padding(start = 22.dp)) {
         WrongFiled(chooseColor(value.value,check1 = true,check2 = true,check3 = true,check4 = true,check5 = true))
         WrongFiled(chooseColor(value.value,check1 = false,check2 = true,check3 = true,check4 = true,check5 = true))
         WrongFiled(chooseColor(value.value,check1 = false,check2 = false,check3 = true,check4 = true,check5 = true))
         WrongFiled(chooseColor(value.value,check1 = false,check2 = false,check3 = false,check4 = true,check5 = true))
         WrongFiled(chooseColor(value.value,check1 = false,check2 = false,check3 = false,check4 = false,check5 = true))
-        Text(text = value.text,color = chooseColor(value.value,check1 = true,check2 = true,check3 = true,check4 = true,check5 = true),modifier = Modifier.width(190.dp),textAlign = TextAlign.End) }
+        Text(text = value.text,color = chooseColor(value.value,check1 = true,check2 = true,check3 = true,check4 = true,check5 = true).color,modifier = Modifier.width(190.dp),textAlign = TextAlign.End) }
+}
+@Composable
+fun ButtonBrush(brush:Float, c:Color){
+    Canvas(modifier = Modifier
+        .height(50.dp)
+        .width(120.dp)
+        .padding(top = 8.dp, start = 0.dp)
+        .border(
+            width = 1.dp,
+            Purple500, shape = RoundedCornerShape(20.dp)
+        )
+    ) {
+        drawRoundRect(
+                SolidColor(c),
+                size =  Size(
+                    brush * size.width,
+                    size.height),
+            alpha = brush,
+            cornerRadius = CornerRadius(
+                x = 20.dp.toPx(),
+                y = 20.dp.toPx()
+            )
+        )
+        val paint = Paint().apply {
+            textAlign = Paint.Align.CENTER
+            textSize = 50f
+            color = Color.White.toArgb()
+        }
+        drawContext.canvas.nativeCanvas.drawText(
+            "Submit",
+            size.width/2,
+            size.height/1.5f,
+            paint
+        )
+    }
+
+    }
+fun setButton(value:Int):Float{
+    return if(value == 1){
+        0.3F
+    }else if( value == 2){
+        0.5F
+    }else if( value == 3 ){
+        0.7F
+    }else if( value == 4 ){
+        0.9F
+    } else if( value >= 5 ){
+        1F
+    } else{
+        0F
+    }
 }
 
-
 data class ValueAndText(var value:Int,var text:String)
+data class BrushAndColor(var color:Color,var brush:Float,)
 
-
-
-
-fun chooseColor(value:Int,check1:Boolean,check2:Boolean,check3:Boolean,check4: Boolean,check5: Boolean) : Color{
+fun chooseColor(value:Int,check1:Boolean,check2:Boolean,check3:Boolean,check4: Boolean,check5: Boolean) : BrushAndColor{
     return if(value == 1 && check1){
-        Color.Red
+        BrushAndColor( Color.Red,1F)
     }else if( value == 2 && check2){
-        Color(0xFFF44336)
+        BrushAndColor(Color(0xFFF44336),1F)
     }else if( value == 3 && check3){
-        Color(0xFFF44336)
+        BrushAndColor(Color(0xFFF44336),1F)
     }else if( value == 4 && check4){
-        Color(0xFFFF9800)
+        BrushAndColor(Color(0xFFFF9800),1F)
     } else if( value >= 5 && check5){
-        Color.Green
+        BrushAndColor(Color(0xFF4CAF50),1F)
     } else{
-        Color.White
-    } }
+        BrushAndColor(Color.White,0.0F)
+    }
+}
 
 
 
 @Composable
-fun WrongFiled(showColor:Color){
+fun WrongFiled(bC:BrushAndColor){
     Canvas(modifier = Modifier
         .height(20.dp)
         .width(30.dp)
         .padding(top = 8.dp, start = 8.dp)
-        .border(BorderStroke(1.dp, Purple500))
-    ) {
-        val canvasSize = size
-        drawRect(
-            color = showColor,
-            size = canvasSize / 1F
-        )
+        .border(BorderStroke(1.dp, Purple500)),
 
+
+
+    ) {
+        drawRect(
+            SolidColor(bC.color),
+            size =  Size(
+                bC.brush * size.width,
+                size.height
+            ),
+            )
     }
 }
 
 
 fun invalidPassword(str:String):ValueAndText{
     var value = 0
-    var text=""
-
+    var text = " "
     if(str.matches(Regex("(.*[0-9].*)"))){
         value += 1
-    }else{
     }
     if(str.matches(Regex("(.*[A-Z].*)"))){
         value += 1
@@ -110,28 +163,21 @@ fun invalidPassword(str:String):ValueAndText{
     if(textPersian(str)){
         value *= 0
     }
-
     if (!(str.matches(Regex("(^\\S*\$)")))){
         value *= 0
     }
-
-
-
 
     text = if(value in 1..2){
         "very weak"
     } else if (value ==3){
         "weak"
-    }else if(value ==4){
+    }else if(value == 4){
         "medium"
     }else if(value >=5){
         "good"
     }else {
         ""
     }
-
-
-
     return ValueAndText(value,text)
 
 }
