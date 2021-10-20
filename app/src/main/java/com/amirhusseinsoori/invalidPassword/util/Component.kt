@@ -1,4 +1,4 @@
-package com.example.mysettingapp.ui
+package com.amirhusseinsoori.invalidPassword.util
 
 import android.graphics.Paint
 import androidx.compose.foundation.BorderStroke
@@ -25,8 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.mysettingapp.R
-import com.example.mysettingapp.ui.theme.Purple500
+import com.amirhusseinsoori.invalidpassword.R
 
 @Composable
 fun TextField(passwordState:String, onTextChange: (String) -> Unit) {
@@ -107,7 +106,7 @@ fun PasswordItem(bC: BrushAndColor) {
             .height(20.dp)
             .width(30.dp)
             .padding(top = 8.dp, start = 8.dp)
-            .border(BorderStroke(1.dp, Purple500)),
+            .border(BorderStroke(1.dp, Color(android.R.color.transparent))),
     ) {
         drawRect(
             SolidColor(bC.color),
@@ -123,12 +122,12 @@ fun PasswordItem(bC: BrushAndColor) {
 fun SubmitButton(brush: Float, c: Color) {
     Canvas(
         modifier = Modifier
-            .height(50.dp)
+            .height(70.dp)
             .width(120.dp)
-            .padding(top = 12.dp)
+            .padding(top = 25.dp)
             .border(
                 width = 1.dp,
-                Purple500, shape = RoundedCornerShape(20.dp)
+                Color(android.R.color.transparent), shape = RoundedCornerShape(20.dp)
             )
     ) {
         drawRoundRect(

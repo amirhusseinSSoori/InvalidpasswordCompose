@@ -1,4 +1,4 @@
-package com.example.mysettingapp
+package com.amirhusseinsoori.invalidPassword
 
 import org.junit.Test
 
