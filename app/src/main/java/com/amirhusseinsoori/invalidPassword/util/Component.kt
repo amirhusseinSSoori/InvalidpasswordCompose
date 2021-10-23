@@ -71,13 +71,13 @@ fun TextField(passwordState:String, onTextChange: (String) -> Unit) {
 
 
 @Composable
-fun PasswordItemView(value: ValueAndText) {
+fun PasswordItemView(value: Pair<Int, String>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 22.dp)
     ) {
-        value.value.apply {
+        value.first.apply {
             PasswordItem(chooseColor())
             PasswordItem(chooseColor(item1 = false))
             PasswordItem(chooseColor(item1 = false, item2 = false))
@@ -91,8 +91,8 @@ fun PasswordItemView(value: ValueAndText) {
                 )
             )
             Text(
-            text = value.text,
-            color = chooseColor().color,
+            text = value.second,
+            color = chooseColor().first,
             modifier = Modifier.width(190.dp),
             textAlign = TextAlign.End)
     }
@@ -100,7 +100,7 @@ fun PasswordItemView(value: ValueAndText) {
 }
 
 @Composable
-fun PasswordItem(bC: BrushAndColor) {
+fun PasswordItem(bC: Pair<Color,Float>) {
     Canvas(
         modifier = Modifier
             .height(20.dp)
@@ -109,9 +109,9 @@ fun PasswordItem(bC: BrushAndColor) {
             .border(BorderStroke(1.dp, Color(android.R.color.transparent))),
     ) {
         drawRect(
-            SolidColor(bC.color),
+            SolidColor(bC.first),
             size = Size(
-                bC.brush * size.width,
+                bC.second * size.width,
                 size.height
             ),
         )

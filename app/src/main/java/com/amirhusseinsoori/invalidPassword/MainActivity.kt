@@ -19,9 +19,9 @@ class MainActivity : ComponentActivity() {
             ) {
                 TextField(passwordState, passwordStateOnChange)
                 PasswordItemView(passwordState.invalidPassword())
-                passwordState.invalidPassword().value.apply {
+                passwordState.invalidPassword().first.apply {
                     SubmitButton(
-                        coverButton(), chooseColor().color
+                        coverButton(), chooseColor().first
                     )
                 }
             }
